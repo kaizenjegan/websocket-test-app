@@ -6,6 +6,20 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+const { Server } = require('ws');
+// const wss = new Server({ server });
+const wss = new Server({
+  port: 8080
+});
+
+wss.on('connection', function connection(ws) {
+  console.log("connected");
+  ws.on('message', function incoming(message) {
+    console.log('received: %s', message);
+  });
+
+  ws.send('something');
+});
 
 var app = express();
 
@@ -19,9 +33,18 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
 
+
+
+
+
+
+
+
+wss.on('connection', (ws) => {
+  console.log('Client connected');
+  ws.on('close', () => console.log('Client disconnected'));
+});
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
@@ -39,3 +62,7 @@ app.use(function(err, req, res, next) {
 });
 
 module.exports = app;
+
+
+//----
+

@@ -21,6 +21,17 @@ app.set('port', port);
 
 var server = http.createServer(app);
 
+const io = require('socket.io')(server);
+
+io.on('connection', client => {
+  console.log('connect')
+  client.on('event', data => {
+    console.log(data);
+  });
+  client.on('disconnect', () => { /* … */ });
+});
+// server.listen(3000);
+
 /**
  * Listen on provided port, on all network interfaces.
  */
@@ -28,6 +39,10 @@ var server = http.createServer(app);
 server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
+
+// const server = express()
+//   .use((req, res) => res.sendFile(INDEX, { root: __dirname }))
+//   .listen(PORT, () => console.log(`Listening on ${PORT}`));
 
 /**
  * Normalize a port into a number, string, or false.
