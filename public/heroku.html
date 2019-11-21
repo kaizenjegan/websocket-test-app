@@ -1,0 +1,32 @@
+<html>
+<!-- <script>
+  var Socket = new WebSocket('ws://localhost:8080/', [protocal] );
+</script> -->
+<script src="https://cdn.jsdelivr.net/npm/socket.io-client@2/dist/socket.io.js"></script>
+<!-- <script src="https://code.jquery.com/jquery-1.11.1.js"></script> -->
+<script
+  src="https://code.jquery.com/jquery-3.4.1.js"
+  integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+  crossorigin="anonymous"></script>
+<script>
+  var socket = io('https://ooami-sockets.herokuapp.com/');
+  socket.on('connect', function(){
+    console.log('connected');
+  });
+  socket.on('event', function(data){});
+  socket.on('disconnect', function(){});
+
+
+    function signalClick(){
+      console.log('signal');
+      socket.emit('event', {callerId: '1234'});
+    }
+</script>
+<body>
+  <!-- test -->
+  <center>
+    <h1> Fake Caller</h1>
+    <!-- <button id="signal" onclick="signalClick()">Signal Caller.</button> -->
+  </center>
+</body>
+</html>
